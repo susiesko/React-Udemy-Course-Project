@@ -7,7 +7,8 @@ import classes from './Toolbar.module.css';
 
 const toolbar = (props) => (
   <header className={classes.Toolbar}>
-    <div>MENU</div>
+   {/*  <button onClick={props.sideDrawerOpened}>MENU</button> */}
+    <a href="javascript:;" onClick={props.sideDrawerOpened}>MENU</a>
     <div className={classes.Logo}>
       <Logo/>
     </div>    
