@@ -34,6 +34,8 @@ class BurgerBuilder extends Component {
       sum += ingredients[idx];
     }
 
+    console.log(sum);
+
     this.setState({ purchasable: sum > 0 });
   }
 
@@ -61,7 +63,7 @@ class BurgerBuilder extends Component {
 
     this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
     
-    this.updatePurchaseState();
+    this.updatePurchaseState(updatedIngredients);
   };
 
   purchaseHandler = () => {
