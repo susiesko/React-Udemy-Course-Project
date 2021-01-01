@@ -9,7 +9,7 @@ const withErrorHandler = ( WrappedComponent, axios ) => {
       error: null
     }
 
-    componentDidMount () { // course is older than newest version of react :)
+    componentWillMount () { // course is older than newest version of react :)
       axios.interceptors.request.use(req => {
         this.setState({ error: null });
         return req;
