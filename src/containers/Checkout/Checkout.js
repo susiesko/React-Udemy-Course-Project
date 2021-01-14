@@ -9,13 +9,28 @@ class Checkout extends Component {
       meat: 1,
       cheese: 1,
       bacon: 1
-    }
+    },
+    checkingOut: false
   }
-  
+
+  continueHandler = () => {
+    this.setState({ checkingOut: true });
+  }
+
+  cancelHandler = () => {
+    this.props.history.push('/');
+  }
+
   render() {
+    let checkoutDOM = <CheckoutSummary ingredients={this.state.ingredients} cancelled={this.cancelHandler} continued={this.continueHandler} />;
+
+    if (this.state.checkingOut){
+      checkoutDOM = <div>Here is my form.</div>;
+    }
+
     return (
       <div>
-        <CheckoutSummary ingredients={this.state.ingredients}/>
+        {checkoutDOM}
       </div>
     );
   }
