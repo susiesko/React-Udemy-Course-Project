@@ -12,6 +12,22 @@ class Checkout extends Component {
     }
   }
 
+  componentWillMount() {
+    const ingredients = this.props.location.search.slice(1)
+      .split('&')
+      .reduce((prev, cur) => {
+        const [key, val] = cur.split('=');
+
+        return {
+          ...prev,
+          [key]: +val
+        }
+      }, {});
+
+    this.setState({ ingredients });
+    //this.setState()
+  }
+
   checkoutCancelledHandler = () => {
     this.props.history.goBack();
   }
