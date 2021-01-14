@@ -9,20 +9,19 @@ class Checkout extends Component {
       meat: 1,
       cheese: 1,
       bacon: 1
-    },
-    checkingOut: false
+    }
   }
 
-  continueHandler = () => {
-    this.setState({ checkingOut: true });
+  checkoutCancelledHandler = () => {
+    this.props.history.goBack();
   }
 
-  cancelHandler = () => {
-    this.props.history.push('/');
+  checkoutContinuedHandler = () => {
+    this.props.history.replace('/checkout/contact-data');
   }
 
   render() {
-    let checkoutDOM = <CheckoutSummary ingredients={this.state.ingredients} cancelled={this.cancelHandler} continued={this.continueHandler} />;
+    let checkoutDOM = <CheckoutSummary ingredients={this.state.ingredients} onCheckoutCancelled={this.checkoutCancelledHandler} onCheckoutContinued={this.checkoutContinuedHandler} />;
 
     if (this.state.checkingOut){
       checkoutDOM = <div>Here is my form.</div>;
