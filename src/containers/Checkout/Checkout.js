@@ -21,15 +21,9 @@ class Checkout extends Component {
   }
 
   render() {
-    let checkoutDOM = <CheckoutSummary ingredients={this.state.ingredients} onCheckoutCancelled={this.checkoutCancelledHandler} onCheckoutContinued={this.checkoutContinuedHandler} />;
-
-    if (this.state.checkingOut){
-      checkoutDOM = <div>Here is my form.</div>;
-    }
-
     return (
       <div>
-        {checkoutDOM}
+        <CheckoutSummary ingredients={this.state.ingredients} onCheckoutCancelled={this.checkoutCancelledHandler} onCheckoutContinued={this.checkoutContinuedHandler} />
       </div>
     );
   }
