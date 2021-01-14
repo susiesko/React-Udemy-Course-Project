@@ -12,20 +12,16 @@ class Checkout extends Component {
     }
   }
 
-  componentWillMount() {
-    const ingredients = this.props.location.search.slice(1)
-      .split('&')
-      .reduce((prev, cur) => {
-        const [key, val] = cur.split('=');
+  componentDidMount() {
+    const query = new URLSearchParams(this.props.location.search);
+    const ingredients = {};
+    for (let param of query.entries()) {
+      // format:  ['salad', '1'];
 
-        return {
-          ...prev,
-          [key]: +val
-        }
-      }, {});
+      ingredients[param[0]] = +param[1];
+    }
 
-    this.setState({ ingredients });
-    //this.setState()
+    this.setState({ ingredients: ingredients });
   }
 
   checkoutCancelledHandler = () => {
