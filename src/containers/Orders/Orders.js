@@ -18,19 +18,23 @@ class Orders extends Component {
         for (let key in res.data) {
           fetchedOrders.push({...res.data[key], id: key});
         }
-
-        console.log(fetchedOrders);
         this.setState({ orders: fetchedOrders, loading: false });
       })
       .catch(err => {
         this.setState({ loading: false });
       });
   }
+
   render() {
     return (
       <div>
-        <Order/>
-        <Order/>
+        {
+          this.state.orders.map(order => 
+            <Order
+              key={order.id}
+              ingredients={order.ingredients}
+              price={order.price} />)
+        }
       </div>
     )
   }
