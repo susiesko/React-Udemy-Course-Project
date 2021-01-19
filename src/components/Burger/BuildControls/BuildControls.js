@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import BuildControl from "./BuildControl/BuildControl";
 
@@ -35,7 +34,5 @@ const buildControls = (props) => (
     </button>
   </div>
 );
-
-buildControls.propTypes = {};
 
 export default buildControls;
