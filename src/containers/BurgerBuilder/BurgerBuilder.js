@@ -11,13 +11,6 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axiosOrders';
 import * as actionTypes from '../../store/actions';
 
-const INGREDIENT_PRICES = {
-  salad: 0.5,
-  cheese: 0.4,
-  meat: 1.3,
-  bacon: 0.7
-};
-
 class BurgerBuilder extends Component {
   state = {
     purchasable: false,
@@ -44,32 +37,32 @@ class BurgerBuilder extends Component {
     this.setState({ purchasable: sum > 0 });
   }
 
-  addIngredientHandler = (type) => {
-    const updatedIngredients = {...this.props.ings};
-    updatedIngredients[type]++;
+  // addIngredientHandler = (type) => {
+  //   const updatedIngredients = {...this.props.ings};
+  //   updatedIngredients[type]++;
 
-    const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type]; // old price plus new price
+  //   const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type]; // old price plus new price
 
-    this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
+  //   this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
 
-    this.updatePurchaseState(updatedIngredients);
-  };
+  //   this.updatePurchaseState(updatedIngredients);
+  // };
 
-  removeIngredientHandler = (type) => {
-    // don't continue if there are already 0 of this ingredient type.
-    if (this.props.ings[type] <= 0){
-      return;
-    }
+  // removeIngredientHandler = (type) => {
+  //   // don't continue if there are already 0 of this ingredient type.
+  //   if (this.props.ings[type] <= 0){
+  //     return;
+  //   }
 
-    const updatedIngredients = {...this.props.ings};
-    updatedIngredients[type]--;
+  //   const updatedIngredients = {...this.props.ings};
+  //   updatedIngredients[type]--;
 
-    const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type]; // old price plus new price
+  //   const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type]; // old price plus new price
 
-    this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
+  //   this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
     
-    this.updatePurchaseState(updatedIngredients);
-  };
+  //   this.updatePurchaseState(updatedIngredients);
+  // };
 
   purchaseHandler = () => {
     this.setState({ purchasing: true });
@@ -97,7 +90,6 @@ class BurgerBuilder extends Component {
   };
 
   render() {
-    console.log(this.props);
     // determine which 'less' buttons should be disabled depending on whether or not there is 0 of an ingredient
     const disabledInfo = {
       ...this.props.ings
@@ -113,7 +105,7 @@ class BurgerBuilder extends Component {
     if (this.props.ings) {
       orderSummary = <OrderSummary 
         ingredients={this.props.ings}
-        price={this.props.orderTotal}
+        price={this.props.price}
         purchaseCancelled={this.purchaseCancelHandler}
         purchaseContinued={this.purchaseContinueHandler} 
       />
@@ -125,7 +117,7 @@ class BurgerBuilder extends Component {
             ingredientAdded={this.props.onIngredientAdded}
             ingredientRemoved={this.props.onIngredientRemoved}
             disabled={disabledInfo}
-            price={this.props.orderTotal}
+            price={this.props.price}
             purchasable={this.state.purchasable}
             ordered={this.purchaseHandler}
           />    
@@ -153,16 +145,16 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
   return {
     ings: state.ingredients,
-    orderTotal: state.totalPrice
+    price: state.totalPrice
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     onIngredientAdded: (ingName) => dispatch(
-        { type: actionTypes.ADD_INGREDIENTS, ingredient: { name: ingName, price: INGREDIENT_PRICES[ingName] } }),
+        { type: actionTypes.ADD_INGREDIENTS, ingredientName: ingName }),
     onIngredientRemoved: (ingName) => dispatch(
-        { type: actionTypes.ADD_INGREDIENTS, ingredient: { name: ingName, price: INGREDIENT_PRICES[ingName] } })
+        { type: actionTypes.ADD_INGREDIENTS, ingredientName: ingName })
   }
 }
 
