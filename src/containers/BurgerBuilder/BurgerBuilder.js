@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Aux from '../../hoc/Auxilary/Auxilary';
 import Burger from '../../components/Burger/Burger';
@@ -8,6 +9,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axiosOrders';
+import * as actionTypes from '../../store/actions';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -18,8 +20,6 @@ const INGREDIENT_PRICES = {
 
 class BurgerBuilder extends Component {
   state = {
-    ingredients: null,
-    totalPrice: 4,
     purchasable: false,
     purchasing: false,
     loading: false,
@@ -45,7 +45,7 @@ class BurgerBuilder extends Component {
   }
 
   addIngredientHandler = (type) => {
-    const updatedIngredients = {...this.state.ingredients};
+    const updatedIngredients = {...this.props.ings};
     updatedIngredients[type]++;
 
     const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type]; // old price plus new price
@@ -57,11 +57,11 @@ class BurgerBuilder extends Component {
 
   removeIngredientHandler = (type) => {
     // don't continue if there are already 0 of this ingredient type.
-    if (this.state.ingredients[type] <= 0){
+    if (this.props.ings[type] <= 0){
       return;
     }
 
-    const updatedIngredients = {...this.state.ingredients};
+    const updatedIngredients = {...this.props.ings};
     updatedIngredients[type]--;
 
     const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type]; // old price plus new price
@@ -80,9 +80,9 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    let queryParams = Object.keys(this.state.ingredients).map(key => {
+    let queryParams = Object.keys(this.props.ings).map(key => {
       const encodedKey = encodeURIComponent(key);
-      const encodedValue = encodeURIComponent(this.state.ingredients[key])
+      const encodedValue = encodeURIComponent(this.props.ings[key])
       return `${encodedKey}=${encodedValue}`
     });
 
@@ -97,9 +97,10 @@ class BurgerBuilder extends Component {
   };
 
   render() {
+    console.log(this.props);
     // determine which 'less' buttons should be disabled depending on whether or not there is 0 of an ingredient
     const disabledInfo = {
-      ...this.state.ingredients
+      ...this.props.ings
     };
 
     for (let key in disabledInfo){
@@ -109,22 +110,22 @@ class BurgerBuilder extends Component {
     let orderSummary = null;
     let burger = this.state.error ? <p>Ingredients can't be loaded!</p> : <Spinner/>;
     
-    if (this.state.ingredients) {
+    if (this.props.ings) {
       orderSummary = <OrderSummary 
-        ingredients={this.state.ingredients}
-        price={this.state.totalPrice}
+        ingredients={this.props.ings}
+        price={this.props.orderTotal}
         purchaseCancelled={this.purchaseCancelHandler}
         purchaseContinued={this.purchaseContinueHandler} 
       />
 
       burger = (
         <Aux>
-          <Burger ingredients={this.state.ingredients}/>    
+          <Burger ingredients={this.props.ings}/>    
           <BuildControls 
-            ingredientAdded={this.addIngredientHandler}
-            ingredientRemoved={this.removeIngredientHandler}
+            ingredientAdded={this.props.onIngredientAdded}
+            ingredientRemoved={this.props.onIngredientRemoved}
             disabled={disabledInfo}
-            price={this.state.totalPrice}
+            price={this.props.orderTotal}
             purchasable={this.state.purchasable}
             ordered={this.purchaseHandler}
           />    
@@ -147,4 +148,22 @@ class BurgerBuilder extends Component {
   }
 }
 
-export default withErrorHandler(BurgerBuilder, axios);
+// i added my own implementation for calculating price with redux during lecture 277.
+
+const mapStateToProps = state => {
+  return {
+    ings: state.ingredients,
+    orderTotal: state.totalPrice
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onIngredientAdded: (ingName) => dispatch(
+        { type: actionTypes.ADD_INGREDIENTS, ingredient: { name: ingName, price: INGREDIENT_PRICES[ingName] } }),
+    onIngredientRemoved: (ingName) => dispatch(
+        { type: actionTypes.ADD_INGREDIENTS, ingredient: { name: ingName, price: INGREDIENT_PRICES[ingName] } })
+  }
+}
+
+export default connect( mapStateToProps,  mapDispatchToProps )( withErrorHandler(BurgerBuilder, axios) );

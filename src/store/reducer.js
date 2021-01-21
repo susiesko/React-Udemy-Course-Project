@@ -10,22 +10,23 @@ const initialState = {
   totalPrice: 4
 }
 
+// i added my own implementation for calculating price with redux during lecture 277.
 const reducer = (state = initialState, action) => {
   switch(action.type){
-    case actionTypes.ADD_INGREDIENTS: 
+    case actionTypes.ADD_INGREDIENTS:
       return {
         ...state,
         ingredients: {
           ...state.ingredients,
-          [action.ingredientName]: state.ingredients[action.ingredientName] + 1
+          [action.ingredient.name]: state.ingredients[action.ingredient.name] + 1,
         }
       }
-    case actionTypes.REMOVE_INGREDIENTS: 
+    case actionTypes.REMOVE_INGREDIENTS:
       return {
         ...state,
         ingredients: {
           ...state.ingredients,
-          [action.ingredientName]: state.ingredients[action.ingredientName] - 1
+          [action.ingredient.name]: state.ingredients[action.ingredient.name] - 1
         }
       }
     default:
