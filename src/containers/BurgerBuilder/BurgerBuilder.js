@@ -141,7 +141,7 @@ const mapDispatchToProps = dispatch => {
     onIngredientAdded: (ingName) => dispatch(
         { type: actionTypes.ADD_INGREDIENTS, ingredientName: ingName }),
     onIngredientRemoved: (ingName) => dispatch(
-        { type: actionTypes.ADD_INGREDIENTS, ingredientName: ingName })
+        { type: actionTypes.REMOVE_INGREDIENTS, ingredientName: ingName })
   }
 }
 
