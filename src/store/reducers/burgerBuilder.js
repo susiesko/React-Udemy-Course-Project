@@ -38,7 +38,12 @@ const fetchIngredientsFailed = (state) => ({
 const setIngredients = (state, ingredients) => ({
   ...state,
   error: false,
-  ingredients: ingredients
+  ingredients: {
+    salad: ingredients.salad,
+    bacon: ingredients.bacon,
+    cheese: ingredients.cheese,
+    meat: ingredients.meat
+  }
 });
 
 const addIngredient = (state, ingredientName) => {
