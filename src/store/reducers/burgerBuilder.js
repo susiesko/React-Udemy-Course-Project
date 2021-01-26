@@ -19,28 +19,27 @@ const reducer = (state = initialState, action) => {
   switch(action.type){
     case actionTypes.ADD_INGREDIENT:
       return addIngredient(state, action.ingredientName);
-      // return {
-      //   ...state,
-      //   ingredients: {
-      //     ...state.ingredients,
-      //     [action.ingredient.name]: state.ingredients[action.ingredient.name] + 1,
-      //     totalPrice: state.totalPrice + action.ingredient.price
-      //   }
-      // }
     case actionTypes.REMOVE_INGREDIENT:
       return removeIngredient(state, action.ingredientName);
-      // return {
-      //   ...state,
-      //   ingredients: {
-      //     ...state.ingredients,
-      //     [action.ingredient.name]: state.ingredients[action.ingredient.name] - 1,
-      //     totalPrice: state.totalPrice - action.ingredient.price
-      //   }
-      // }
+    case actionTypes.SET_INGREDIENTS:
+      return setIngredients(state, action.ingredients);
+    case actionTypes.FETCH_INGREDIENTS_FAILED:
+      return fetchIngredientsFailed(state);
     default:
       return state;
   }
 };
+
+const fetchIngredientsFailed = (state) => ({  
+  ...state,
+  error: true
+});
+
+const setIngredients = (state, ingredients) => ({
+  ...state,
+  error: false,
+  ingredients: ingredients
+});
 
 const addIngredient = (state, ingredientName) => {
   //console.log('addIngredient', state, ingredientName);
