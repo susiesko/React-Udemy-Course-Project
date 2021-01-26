@@ -13,17 +13,10 @@ import * as actionTypes from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
   state = {
-    purchasing: false,
-    loading: false,
-    error: null
+    purchasing: false
   };
 
   componentDidMount () {
-    axios.get('/ingredients.json').then(res => {      
-      this.setState({ ingredients: res.data });
-    }).catch(error => {
-      this.setState({ error: true });
-    });
   }
 
   updatePurchaseState(ingredients) {
@@ -36,33 +29,6 @@ class BurgerBuilder extends Component {
     return sum > 0;
     //this.setState({ purchasable: sum > 0 });
   }
-
-  // addIngredientHandler = (type) => {
-  //   const updatedIngredients = {...this.props.ings};
-  //   updatedIngredients[type]++;
-
-  //   const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type]; // old price plus new price
-
-  //   this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
-
-  //   this.updatePurchaseState(updatedIngredients);
-  // };
-
-  // removeIngredientHandler = (type) => {
-  //   // don't continue if there are already 0 of this ingredient type.
-  //   if (this.props.ings[type] <= 0){
-  //     return;
-  //   }
-
-  //   const updatedIngredients = {...this.props.ings};
-  //   updatedIngredients[type]--;
-
-  //   const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type]; // old price plus new price
-
-  //   this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
-    
-  //   this.updatePurchaseState(updatedIngredients);
-  // };
 
   purchaseHandler = () => {
     this.setState({ purchasing: true });
@@ -110,10 +76,6 @@ class BurgerBuilder extends Component {
           />    
         </Aux>      
       );
-
-      if (this.state.loading) {
-        orderSummary = <Spinner/>;
-      }
     }
 
     return (
@@ -132,7 +94,8 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
   return {
     ings: state.ingredients,
-    price: state.totalPrice
+    price: state.totalPrice,
+    error: state.error
   }
 }
 
