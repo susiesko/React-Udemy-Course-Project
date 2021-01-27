@@ -55,8 +55,6 @@ class BurgerBuilder extends Component {
 
     let orderSummary = null;
     let burger = this.props.error ? <p>Ingredients can't be loaded!</p> : <Spinner/>;
-
-    console.log(this.props);
     
     if (this.props.ings) {
       orderSummary = <OrderSummary 
@@ -95,7 +93,6 @@ class BurgerBuilder extends Component {
 // i added my own implementation for calculating price with redux during lecture 277.
 
 const mapStateToProps = state => {
-  console.log('state', state)
   return {
     ings: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
