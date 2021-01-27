@@ -1,6 +1,8 @@
 export { 
   addIngredient, 
   removeIngredient, 
-  initIngredients } from './burgerBuilder';
+  initIngredients 
+} from './burgerBuilder';
 export { 
-  purchaseBurgerStart } from './order';
+  purchaseBurger
+} from './order';

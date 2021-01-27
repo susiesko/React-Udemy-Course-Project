@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from '../actions/actions';
 
 const initialState = {
   order: [],
@@ -7,16 +7,24 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type){
+    case actionTypes.PURCHASE_BURGER_START:
+      console.log(state);
+      return purchaseBurgerStart(state);
     case actionTypes.PURCHASE_BURGER_SUCCESS:
-      return purchaseBurgerSuccess(action.orderId, action.orderData);
+      return purchaseBurgerSuccess(state, action.orderId, action.orderData);
     case actionTypes.PURCHASE_BURGER_FAIL:
-      return purchaseBurgerFail();
+      return purchaseBurgerFail(state);
     default: 
       return state;
   }
 };
 
-const purchaseBurgerSuccess = (orderId, order) => {
+const purchaseBurgerStart = (state) => ({
+  ...state,
+  loading: true
+});
+
+const purchaseBurgerSuccess = (state, orderId, order) => {
   const newOrder = {
     ...order,
     id: orderId
@@ -28,7 +36,7 @@ const purchaseBurgerSuccess = (orderId, order) => {
   } ;
 };
 
-const purchaseBurgerFail = () => ({
+const purchaseBurgerFail = (state) => ({
   ...state,
   loading: false
 })
