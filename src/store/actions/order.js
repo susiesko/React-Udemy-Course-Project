@@ -34,3 +34,13 @@ export const purchaseInit = () => {
     type: actionTypes.PURCHASE_INIT
   }
 }
+
+export const fetchOrdersSuccess = (orders) => ({
+  type: actionTypes.FETCH_ORDERS_SUCCESS,
+  orders: orders
+});
+
+export const fetchOrdersFail = (error) => ({
+  type: actionTypes.FETCH_ORDERS_SUCCESS,
+  error: error
+});
