@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/actions';
 
 const initialState = {
   orders: [],
-  loading: false
+  loading: false,
+  purchased: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,6 +14,8 @@ const reducer = (state = initialState, action) => {
       return purchaseBurgerSuccess(state, action.orderId, action.orderData);
     case actionTypes.PURCHASE_BURGER_FAIL:
       return purchaseBurgerFail(state);
+    case actionTypes.PURCHASE_INIT:
+      return purchaseInit(state);
     default: 
       return state;
   }
@@ -20,7 +23,8 @@ const reducer = (state = initialState, action) => {
 
 const purchaseBurgerStart = (state) => ({
   ...state,
-  loading: true
+  loading: true,
+  purchased: false
 });
 
 const purchaseBurgerSuccess = (state, orderId, order) => {
@@ -31,7 +35,8 @@ const purchaseBurgerSuccess = (state, orderId, order) => {
   return {
     ...state,
     loading: false,
-    orders: state.orders.concat(newOrder)
+    orders: state.orders.concat(newOrder),
+    purchased: true
   };
 };
 
@@ -39,6 +44,13 @@ const purchaseBurgerFail = (state) => ({
   ...state,
   loading: false
 })
+
+const purchaseInit = (state) => {
+  return {
+    ...state,
+    purchased: false
+  }
+};
 
 
 export default reducer;
