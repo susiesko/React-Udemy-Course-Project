@@ -52,7 +52,7 @@ export const fetchOrdersStart = () => ({
 export const fetchOrders = () => {
   return dispatch => {
     dispatch(fetchOrdersStart());
-    
+
     axios.get('/orders.json')
       .then(res => {
         const fetchedOrders = [];
@@ -61,9 +61,7 @@ export const fetchOrders = () => {
           fetchedOrders.push({...res.data[key], id: key});
         }
         
-        setTimeout(() => {
-          dispatch(fetchOrdersSuccess(fetchedOrders));
-        }, 2000);
+        dispatch(fetchOrdersSuccess(fetchedOrders));
       })
       .catch(err => {
         dispatch(fetchOrdersFail(err));
