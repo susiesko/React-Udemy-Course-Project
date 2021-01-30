@@ -18,16 +18,11 @@ const INGREDIENT_PRICES = {
 // i added my own implementation for calculating price with redux during lecture 277.
 const reducer = (state = initialState, action) => {
   switch(action.type){
-    case actionTypes.ADD_INGREDIENT:
-      return addIngredient(state, action.ingredientName);
-    case actionTypes.REMOVE_INGREDIENT:
-      return removeIngredient(state, action.ingredientName);
-    case actionTypes.SET_INGREDIENTS:
-      return setIngredients(state, action.ingredients);
-    case actionTypes.FETCH_INGREDIENTS_FAILED:
-      return updateObject({ ...state, error: true });
-    default:
-      return state;
+    case actionTypes.ADD_INGREDIENT: return addIngredient(state, action.ingredientName);
+    case actionTypes.REMOVE_INGREDIENT: return removeIngredient(state, action.ingredientName);
+    case actionTypes.SET_INGREDIENTS: return setIngredients(state, action.ingredients);
+    case actionTypes.FETCH_INGREDIENTS_FAILED: return fetchIngredientsFailed(state);
+    default: return state;
   }
 }
 
@@ -63,6 +58,10 @@ const removeIngredient = (state, ingredientName) => {
     ingredients: updatedIngredients,
     totalPrice: state.totalPrice - INGREDIENT_PRICES[ingredientName]
   });
+}
+
+const fetchIngredientsFailed = state => {
+  updateObject( state, { error: true });
 }
 
 export default reducer;
