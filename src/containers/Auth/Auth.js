@@ -7,6 +7,7 @@ import classes from './Auth.module.css';
 import * as actions from '../../store/actions/index';
 import axios from '../../axiosOrders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Auth extends Component {
   state = {
@@ -108,7 +109,7 @@ class Auth extends Component {
       })
     };
 
-    const form = formElementsArray.map(formElement => (
+    let form = formElementsArray.map(formElement => (
       <Input 
         key={formElement.id} 
         elementType={formElement.config.elementType}
@@ -118,16 +119,28 @@ class Auth extends Component {
         shouldValidate={formElement.config.validation}
         touched={formElement.config.touched}
         changed={(event) => this.inputChangedHandler(event, formElement.id)}/>
-    ))
+    ));
+    
+    let errorMessage = null;
+
+    if(this.props.error){
+      errorMessage = <p>{this.props.error.message}</p>;
+    }
+
+    if (this.props.loading && !this.props.error){
+      form = <Spinner/>;
+    }
+
     return(
       <div className={classes.Auth}>
+        { errorMessage }
         <form onSubmit={this.submitHandler}>
           { form }
           <Button btnType="Success">SUBMIT</Button>
         </form>
         <Button 
           btnType="Danger"
-          clicked={this.switchAuthModeHandler}
+          clicked={this.switchAuthModeHandler} 
           >SWITCH TO {this.state.isSignup ? 'SIGN IN' : 'SIGN UP'}
         </Button>
       </div>
