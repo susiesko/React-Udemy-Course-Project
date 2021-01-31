@@ -135,8 +135,15 @@ class Auth extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  token: state.auth.token,
+  userId: state.auth.userId,
+  error: state.auth.error,
+  loading: state.auth.loading
+})
+
 const mapDispatchToProps = dispatch => ({
   onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup))
 })
 
-export default connect(null, mapDispatchToProps)(withErrorHandler(Auth, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Auth, axios));
