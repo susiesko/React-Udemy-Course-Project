@@ -37,10 +37,13 @@ export const auth = (email, password, isSignup) => {
       returnSecureToken: true
     };
 
-    let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCZ6_pcXO2_N-l8V-qZy9Odpia6Qiz6IUU';
+    const APIKey = process.env.REACT_APP_API_KEY;
+    console.log('APIKey', APIKey);
+
+    let url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${APIKey}`;
 
     if (!isSignup){
-      url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCZ6_pcXO2_N-l8V-qZy9Odpia6Qiz6IUU';
+      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${APIKey}`;
     }
 
     axios.post(url, authData)
