@@ -55,3 +55,7 @@ export const auth = (email, password, isSignup) => {
       });
   }
 };
+
+export const logout = () => {
+  return authLogout();
+}
