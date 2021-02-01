@@ -18,7 +18,7 @@ class App extends Component {
   render() {
     let routes = (
       <Switch>
-        <Route path="/auth" component={Auth} />
+        <Route path="/auth" exact component={Auth} />
         <Route exact path="/" component={BurgerBuilder}/>
         <Redirect to="/"/>
       </Switch>
@@ -31,6 +31,7 @@ class App extends Component {
           <Route path="/orders" component={Orders} />
           <Route path="/logout" component={Logout} />
           <Route exact path="/" component={BurgerBuilder}/>
+          <Redirect to="/"/>
         </Switch>
       );
     }
