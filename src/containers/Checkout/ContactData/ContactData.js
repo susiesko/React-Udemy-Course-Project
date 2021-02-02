@@ -10,7 +10,6 @@ import axios from '../../../axiosOrders';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actionTypes from '../../../store/actions';
 import { updateObject, checkValidity } from '../../../shared/utility';
-import input from '../../../components/UI/Input/Input';
 
 class ContactData extends Component {
   state = {
@@ -177,7 +176,6 @@ class ContactData extends Component {
       </form>      
     );
 
-    console.log(this.props.loading);
     if (this.props.loading){
       form = <Spinner/>;
     }

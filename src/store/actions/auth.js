@@ -38,7 +38,6 @@ export const auth = (email, password, isSignup) => {
     };
 
     const APIKey = process.env.REACT_APP_API_KEY;
-    console.log('APIKey', APIKey);
 
     let url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${APIKey}`;
 

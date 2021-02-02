@@ -107,7 +107,6 @@ class Auth extends Component {
       form = <Spinner/>;
     }
 
-    let authRedirect = null;
     if (this.props.isAuth){
       return <Redirect to={this.props.authRedirectPath}/>;
     }
