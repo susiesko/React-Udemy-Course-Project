@@ -20,6 +20,10 @@ const authLogout = () => ({
   type: actionTypes.AUTH_LOGOUT
 });
 
+const authInitiateLogout = () => ({
+  type: actionTypes.AUTH_INITIATE_LOGOUT
+});
+
 export const checkAuthTimeout = (expirationTime) => {
   return dispatch => {
     setTimeout(() => {
@@ -60,9 +64,10 @@ export const auth = (email, password, isSignup) => {
 };
 
 export const logout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('expirationDate');
-  return authLogout();
+  // localStorage.removeItem('token');
+  // localStorage.removeItem('expirationDate');
+  // localStorage.removeItem('userId');
+  return authInitiateLogout();
 }
 
 export const setAuthRedirectPath = path => ({
