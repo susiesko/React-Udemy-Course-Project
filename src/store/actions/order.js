@@ -13,7 +13,7 @@ export const purchaseBurgerFail = error => ({
 
 export const purchaseBurgerStart = () => ({
   type: actionTypes.PURCHASE_BURGER_START
-})
+});
 
 export const purchaseBurger = (orderData, token) => ({
   type: actionTypes.PURCHASE_BURGER,
@@ -21,11 +21,9 @@ export const purchaseBurger = (orderData, token) => ({
   token
 });
 
-export const purchaseInit = () => {
-  return {
-    type: actionTypes.PURCHASE_INIT
-  }
-}
+export const purchaseInit = () => ({
+  type: actionTypes.PURCHASE_INIT
+});
 
 export const fetchOrdersSuccess = (orders) => ({
   type: actionTypes.FETCH_ORDERS_SUCCESS,
