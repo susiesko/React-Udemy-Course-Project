@@ -29,36 +29,12 @@ export const checkAuthTimeout = (expirationTime) => ({
   expirationTime
 });
 
-export const auth = (email, password, isSignup) => {
-  return dispatch => {
-    dispatch(authStart());
-    const authData = {
-      email,
-      password,
-      returnSecureToken: true
-    };
-
-    const APIKey = process.env.REACT_APP_API_KEY;
-
-    let url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${APIKey}`;
-
-    if (!isSignup){
-      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${APIKey}`;
-    }
-
-    axios.post(url, authData)
-      .then(res => {
-        const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
-        localStorage.setItem('token', res.data.idToken);
-        localStorage.setItem('expirationDate', expirationDate);
-        localStorage.setItem('userId', res.data.localId);
-        dispatch(authSuccess(res.data.idToken, res.data.localId));
-        dispatch(checkAuthTimeout(res.data.expiresIn));
-      }).catch(err => {
-        dispatch(authFail(err.response.data.error));
-      });
-  }
-};
+export const auth = (email, password, isSignup) => ({
+  type: actionTypes.AUTH_USER,
+  email,
+  password,
+  isSignup
+});
 
 export const logout = () => {
   // localStorage.removeItem('token');
