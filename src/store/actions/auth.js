@@ -1,5 +1,4 @@
 import * as actionTypes from './actions';
-import axios from 'axios';
 
 export const authStart = () => ({
   type: actionTypes.AUTH_START
@@ -14,10 +13,6 @@ export const authSuccess = (idToken, userId) => ({
 export const authFail = error => ({
   type: actionTypes.AUTH_FAIL,
   error
-});
-
-const authLogout = () => ({
-  type: actionTypes.AUTH_LOGOUT
 });
 
 const authInitiateLogout = () => ({
