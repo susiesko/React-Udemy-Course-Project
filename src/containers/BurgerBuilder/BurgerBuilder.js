@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Aux from '../../hoc/Auxilary/Auxilary';
@@ -11,16 +11,15 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axiosOrders';
 import * as actionTypes from '../../store/actions/index';
 
-export class BurgerBuilder extends Component {
-  state = {
-    purchasing: false
-  };
+const BurgerBuilder = props => {
+  const [purchasing, setPurchasing] = useState(false);
+  const { onInitIngredients } = props;
 
-  componentDidMount () {
-    this.props.onInitIngredients();
-  }
+  useEffect(() => {
+    onInitIngredients();
+  }, [onInitIngredients]);
 
-  updatePurchaseState(ingredients) {
+  const updatePurchaseState = (ingredients) => {
     let sum = 0;
 
     for (let idx in ingredients){
@@ -28,77 +27,73 @@ export class BurgerBuilder extends Component {
     }
   
     return sum > 0;
-    //this.setState({ purchasable: sum > 0 });
   }
 
-  purchaseHandler = () => {
-    if (this.props.isAuth){
-      this.setState({ purchasing: true });
+  const purchaseHandler = () => {
+    if (props.isAuth){
+      setPurchasing(true);
     } else {
-      this.props.onSetRedirectPath('/checkout')
-      this.props.history.push('/auth');
+      props.onSetRedirectPath('/checkout')
+      props.history.push('/auth');
     }
   };
 
-  purchaseCancelHandler = () => {
-    this.setState({ purchasing: false });
+  const purchaseCancelHandler = () => {
+    setPurchasing(false);
   };
 
-  purchaseContinueHandler = () => {
-    this.props.onInitPurchase();
-    this.props.history.push('/checkout');
+  const purchaseContinueHandler = () => {
+    props.onInitPurchase();
+    props.history.push('/checkout');
   };
 
-  render() {
-    // determine which 'less' buttons should be disabled depending on whether or not there is 0 of an ingredient
-    const disabledInfo = {
-      ...this.props.ings
-    };
+  // determine which 'less' buttons should be disabled depending on whether or not there is 0 of an ingredient
+  const disabledInfo = {
+    ...props.ings
+  };
 
-    for (let key in disabledInfo){
-      disabledInfo[key] = disabledInfo[key] <= 0;
-    }
+  for (let key in disabledInfo){
+    disabledInfo[key] = disabledInfo[key] <= 0;
+  }
 
-    let orderSummary = null;
-    let burger = this.props.error ? <p>Ingredients can't be loaded!</p> : <Spinner/>;
-    
-    if (this.props.ings) {
-      orderSummary = <OrderSummary 
-        ingredients={this.props.ings}
-        price={this.props.price}
-        purchaseCancelled={this.purchaseCancelHandler}
-        purchaseContinued={this.purchaseContinueHandler} 
-      />
+  let orderSummary = null;
+  let burger = props.error ? <p>Ingredients can't be loaded!</p> : <Spinner/>;
+  
+  if (props.ings) {
+    orderSummary = <OrderSummary 
+      ingredients={props.ings}
+      price={props.price}
+      purchaseCancelled={purchaseCancelHandler}
+      purchaseContinued={purchaseContinueHandler} 
+    />
 
-      burger = (
-        <Aux>
-          <Burger ingredients={this.props.ings}/>    
-          <BuildControls 
-            ingredientAdded={this.props.onIngredientAdded}
-            ingredientRemoved={this.props.onIngredientRemoved}
-            disabled={disabledInfo}
-            price={this.props.price}
-            purchasable={this.updatePurchaseState(this.props.ings)}
-            ordered={this.purchaseHandler}
-            isAuth={this.props.isAuth}
-          />    
-        </Aux>      
-      );
-    }
-
-    return (
+    burger = (
       <Aux>
-        <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-          { orderSummary }
-        </Modal>
-        { burger }
-      </Aux>
+        <Burger ingredients={props.ings}/>    
+        <BuildControls 
+          ingredientAdded={props.onIngredientAdded}
+          ingredientRemoved={props.onIngredientRemoved}
+          disabled={disabledInfo}
+          price={props.price}
+          purchasable={updatePurchaseState(props.ings)}
+          ordered={purchaseHandler}
+          isAuth={props.isAuth}
+        />    
+      </Aux>      
     );
   }
+
+  return (
+    <Aux>
+      <Modal show={purchasing} modalClosed={purchaseCancelHandler}>
+        { orderSummary }
+      </Modal>
+      { burger }
+    </Aux>
+  );
 }
 
 // i added my own implementation for calculating price with redux during lecture 277.
-
 const mapStateToProps = state => {
   return {
     ings: state.burgerBuilder.ingredients,
