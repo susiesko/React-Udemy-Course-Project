@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
@@ -6,15 +6,14 @@ import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 import classes from './Layout.module.css';
 
-
 const Layout = props => {
   const [showSideDrawer, setShowSideDrawer] = useState(false);  
 
-  const sideDrawerClosedHandler = useCallback(() => setShowSideDrawer(false), [setShowSideDrawer]);
+  const sideDrawerClosedHandler = () => setShowSideDrawer(false);
 
-  const sideDrawerToggleHandler = useCallback(() => {
+  const sideDrawerToggleHandler = () => {
     setShowSideDrawer(prevVal => !prevVal)
-  });
+  };
 
   return (
     <React.Fragment>

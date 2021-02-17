@@ -63,8 +63,6 @@ const removeIngredient = (state, ingredientName) => {
   });
 }
 
-const fetchIngredientsFailed = state => {
-  updateObject( state, { error: true });
-}
+const fetchIngredientsFailed = state => updateObject( state, { error: true });
 
 export default reducer;
