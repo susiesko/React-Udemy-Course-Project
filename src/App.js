@@ -21,6 +21,7 @@ const Auth = React.lazy(() => {
 
 const App = props => {
   const { onTryAutoSignin } = props;
+  
   let routes = (
     <Switch>
       <Route path="/auth" exact component={props => <Auth {...props} />} />
